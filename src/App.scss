@@ -1,0 +1,58 @@
+:root {
+    --border: #c4c4c4;
+    --text: #888888;
+    --black: #1b1b1b;
+    --white: #ffffff;
+    --accent2: #f0f0f0;
+  
+    --transition: all 0.2s ease-out;
+  }
+  
+  body {
+    height: 100dvh;
+    overflow-x: hidden;
+    background: var(--accent2);
+  }
+  
+  @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+  
+  * {
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--black);
+    font-weight: 600;
+    margin: 0px;
+  }
+  
+  .parent {
+    width: 100vw;
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      height: 100%;
+    }
+  }
+  
+  .btn {
+    background: var(--black);
+    color: var(--accent2);
+    padding: 0.5rem 1rem;
+    border-radius: 0.45rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    &:hover {
+      filter: brightness(0.9);
+      transform: translateY(-2px);
+    }
+  }
+  

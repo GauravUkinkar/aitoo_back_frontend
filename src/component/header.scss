@@ -1,0 +1,10 @@
+.header-parent {
+  height: 60px;
+  background: rgba(0, 162, 255, 0.192);
+  .header-cont {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px;
+  }
+}
