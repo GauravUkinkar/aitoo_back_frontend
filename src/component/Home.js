@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./home.scss";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Home = () => {
   const [company, setCompany] = useState({
     name: "",
@@ -119,8 +120,14 @@ const Home = () => {
   return (
     <>
       <div className="home-parent parent">
+      
         <div className="home-cont container">
-          {/* //---------------Company Name Form---------------// */}
+        <div className="view-data">
+                <Link to="#">View All</Link>
+            </div>
+
+            <div className="form-parent">
+                 {/* //---------------Company Name Form---------------// */}
           <form className="main" onSubmit={companyName}>
             <div className="form-group">
               <input
@@ -270,6 +277,8 @@ const Home = () => {
               Submit
             </button>
           </form>
+            </div>
+         
         </div>
       </div>
     </>
