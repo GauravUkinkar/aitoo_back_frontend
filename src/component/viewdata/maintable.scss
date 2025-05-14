@@ -1,0 +1,20 @@
+//top bar
+.header-tab-parent{
+    padding:100px 0px;
+    .header-tab-cont{
+        display: flex;
+        flex-direction: column;
+       
+        .list p {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+          }
+          
+          .active-tab {
+            font-weight: bold;
+            border-bottom: 2px solid #1890ff;
+          }
+    }
+}
