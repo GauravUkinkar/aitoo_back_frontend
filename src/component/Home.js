@@ -13,6 +13,7 @@ const Home = () => {
   const [paramId] = useSearchParams();
   const idParams = paramId.get("companyname");
   const idParamss = paramId.get("companytype");
+  const idParamsAd = paramId.get("companyad");
 
 
   const companyName = async (idParams) => {
@@ -110,16 +111,37 @@ const Home = () => {
   const [adpurpose, setAdPurpose] = useState({
     name: "",
   });
-  const AdPupose = async () => {
+  const AdPurpose = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/companyAd/companyad",
-        adpurpose
-      );
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/companyad/getDatabyId/${idParamsAd}`);
+      console.log(response, "GET AD PURPOSE");
+      setAdPurpose({
+        name:response.data?.name || "",
+      })
+      // const response = await axios.post(
+      //   "http://localhost:8000/companyAd/companyad",
+      //   adpurpose
+      // );
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(()=>{
+    if(idParamsAd){
+      AdPurpose(idParamsAd);
+    }
+  }, [idParamsAd]);
+
+const handleAdPurpose = async(e) =>{
+  e.preventDefault();
+  try {
+    let response;
+    response = await axios.put(`${process.env.REACT_APP_API_URL}/update/${p}`)
+  } catch (error) {
+    console.log(error);
+  }
+
+}
 
   //--------Forth Form -----------------//
   const [service, setService] = useState({
@@ -249,7 +271,7 @@ const Home = () => {
             </form>
 
             {/* //-------------------------Company Ad Purpose Form -------------------// */}
-            <form className="main" onSubmit={AdPupose}>
+            <form className="main" onSubmit={handleAdPurpose}>
               <div className="form-group">
                 <input
                   type="text"

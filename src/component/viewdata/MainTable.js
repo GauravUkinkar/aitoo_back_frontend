@@ -46,9 +46,26 @@ const MainTable = () => {
     }
   };
 
+  //---------Ad Purpose---------------//
+  const [adpurpose, setAdPurpose] = useState();
+  const AdPurpose = async() =>{
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/companyAd/getalldata`);
+      const companyAdData = response.data.map((item, index)=>({
+        id:item.id,
+        key:index.sr_no,
+        name:item.name,
+      }));
+      setAdPurpose(companyAdData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     namedata();
     Company();
+    AdPurpose();
   }, []);
 
   // const dataSource = [
@@ -158,6 +175,50 @@ const MainTable = () => {
     }
   };
 
+
+  //--------------Add Purpose---------------//
+  const columnadPurpose =[
+    {
+      title: "Sr. No",
+      key: "srno",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Space size="middle">
+          <Link to={`/?companyad=${record.id}`}>
+            <EditOutlined />
+          </Link>
+          <Button
+            icon={<DeleteOutlined />}
+            onClick={() => deletedataad(record.id)}
+            danger
+          />
+        </Space>
+      ),
+    },
+  ];
+
+  //----------------delete ad--------------//
+  const deletedataad = async(id) =>{
+    if (window.confirm("Are You sure you want to delete this item?")) {
+      try {
+        const response = await axios.delete(
+          `${process.env.REACT_APP_API_URL}/companyAd/delete/${id}`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
   return (
     <div className="header-tab-parent parent">
       <div className="header-tab-cont container">
