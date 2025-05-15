@@ -9,20 +9,23 @@ const Home = () => {
     desc: "",
   });
 
-  //-------------First Form----------------//
   const [paramId] = useSearchParams();
   const idParams = paramId.get("companyname");
   const idParamss = paramId.get("companytype");
   const idParamsAd = paramId.get("companyad");
+  const idParamsservice = paramId.get("companyService");
+  const idParamscompany = paramId.get("companyAudience");
+  const idParamscountry = paramId.get("companycountry");
+  const idParamssector = paramId.get("companySector");
 
-
+  //-------------Company Name and Description ----------------//
   const companyName = async (idParams) => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/companyName/getDatabyId/${idParams}`
       );
 
-      console.log(response)
+      console.log(response);
       setCompany({
         name: response.data.data?.name || "",
         desc: response.data.data?.desc || "",
@@ -61,8 +64,8 @@ const Home = () => {
       console.log(error.response?.data || error.message);
     }
   };
-  //-------------------------second form------------------//
-  
+  //-------------------------Company Type ------------------//
+
   const [companytype, setCompanyType] = useState({
     name: "",
   });
@@ -107,52 +110,89 @@ const Home = () => {
       console.log(error);
     }
   };
-  //----------Third Form ---------------------//
+  //----------Company Ad Purpose ---------------------//
   const [adpurpose, setAdPurpose] = useState({
     name: "",
   });
   const AdPurpose = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/companyad/getDatabyId/${idParamsAd}`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/companyad/getDatabyId/${idParamsAd}`
+      );
       console.log(response, "GET AD PURPOSE");
       setAdPurpose({
-        name:response.data?.name || "",
-      })
-      // const response = await axios.post(
-      //   "http://localhost:8000/companyAd/companyad",
-      //   adpurpose
-      // );
+        name: response.data?.name || "",
+      });
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(()=>{
-    if(idParamsAd){
+  useEffect(() => {
+    if (idParamsAd) {
       AdPurpose(idParamsAd);
     }
   }, [idParamsAd]);
 
-const handleAdPurpose = async(e) =>{
-  e.preventDefault();
-  try {
-    let response;
-    response = await axios.put(`${process.env.REACT_APP_API_URL}/update/${p}`)
-  } catch (error) {
-    console.log(error);
-  }
+  const handleAdPurpose = async (e) => {
+    e.preventDefault();
+    try {
+      let response;
+      if (idParamsAd) {
+        response = await axios.put(
+          `${process.env.REACT_APP_API_URL}/companyAd/update/${idParamsAd}`,
+          adpurpose
+        );
+      } else {
+        response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/companyAd/companyad`,
+          adpurpose
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-}
-
-  //--------Forth Form -----------------//
+  //--------Company Service-----------------//
   const [service, setService] = useState({
     name: "",
   });
   const Service = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/company/company",
-        service
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/company/getById/${idParamsservice}`
       );
+      setService({
+        name: response.data.data?.name || "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (idParamsservice) {
+      Service(idParamsservice);
+    }
+  }, [idParamsservice]);
+
+  const handleService = async (e) => {
+    e.preventDefault();
+    try {
+      let response;
+      if (idParamsservice) {
+        response = await axios.put(
+          `${process.env.REACT_APP_API_URL}/company/update/${idParamsservice}`,
+          service
+        );
+      } else {
+        response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/company/add`,
+          service
+        );
+      }
+      setService({
+        name: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -164,10 +204,40 @@ const handleAdPurpose = async(e) =>{
   });
   const Target = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/companyAudience/addaudience",
-        target
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/companyAudience/getDatabyId/${idParamscompany}`
       );
+      setTarget({
+        name: response.data?.name || "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (idParamscompany) {
+      Target(idParamscompany);
+    }
+  }, [idParamscompany]);
+
+  const handleTarget = async (e) => {
+    e.preventDefault();
+    try {
+      let response;
+      if (idParamscompany) {
+        response = await axios.put(
+          `${process.env.REACT_APP_API_URL}/companyAudience/update/${idParamscompany}`,
+          target
+        );
+      } else {
+        response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/companyAudience/addaudience`,
+          target
+        );
+      }
+      setTarget({
+        name: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -179,14 +249,42 @@ const handleAdPurpose = async(e) =>{
   });
   const Country = async (e) => {
     try {
-      //   const response = await axios.post(
-      //     "http://localhost:8000/companyCountry/companycountry",
-      //     country
-      //   );
-      const response = await axios.post(
-        `${e.preventdefault.REACT_API_URL}/companyCountry/companycountry`,
-        country
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/companyCountry/getById/${idParamscountry}`
       );
+      console.log(response, "GEt by id data ");
+      setCountry({
+        name: response.data?.name || "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (idParamscountry) {
+      Country(idParamscountry);
+    }
+  }, [idParamscountry]);
+
+  const handleCountry = async (e) => {
+    e.preventDefault();
+    try {
+      let response;
+      if (idParamscountry) {
+        response = await axios.put(
+          `${process.env.REACT_APP_API_URL}/companyCountry/update/${idParamscountry}`,
+          country
+        );
+      } else {
+        response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/companyCountry/companycountry`,
+          country
+        );
+      }
+      setCountry({
+        name: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -196,12 +294,42 @@ const handleAdPurpose = async(e) =>{
   const [sector, setSector] = useState({
     name: "",
   });
-  const Sector = async (e) => {
+  const Sector = async () => {
     try {
-      const response = await axios.post(
-        `${e.preventdefault.REACT_API_URL}/sector/companysector`,
-        sector
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/sector/getById/${idParamssector}`
       );
+      setSector({
+        name: response.data?.name || "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (idParamssector) {
+      Sector(idParamssector);
+    }
+  }, [idParamssector]);
+
+  const handleSector = async (e) => {
+    e.preventDefault();
+    try {
+      let response;
+      if (idParamssector) {
+        response = await axios.put(
+          `${process.env.REACT_APP_API_URL}/sector/update/${idParamssector}`,
+          sector
+        );
+      } else {
+        response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/sector/add`,
+          sector
+        );
+      }
+      setSector({
+        name: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -292,7 +420,7 @@ const handleAdPurpose = async(e) =>{
             </form>
 
             {/* //-------------------------Service Form -------------------// */}
-            <form className="main" onSubmit={Service}>
+            <form className="main" onSubmit={handleService}>
               <div className="form-group">
                 <input
                   type="text"
@@ -310,7 +438,7 @@ const handleAdPurpose = async(e) =>{
             </form>
 
             {/* //-------------------------Target Audience Form  -------------------// */}
-            <form className="main" onSubmit={Target}>
+            <form className="main" onSubmit={handleTarget}>
               <div className="form-group">
                 <input
                   type="text"
@@ -328,7 +456,7 @@ const handleAdPurpose = async(e) =>{
             </form>
 
             {/* //-------------------------Country Form -------------------// */}
-            <form className="main" onSubmit={Country}>
+            <form className="main" onSubmit={handleCountry}>
               <div className="form-group">
                 <input
                   type="text"
@@ -348,7 +476,7 @@ const handleAdPurpose = async(e) =>{
               </button>
             </form>
             {/* //-------------------------Sector Form -------------------// */}
-            <form className="main" onSubmit={Sector}>
+            <form className="main" onSubmit={handleSector}>
               <div className="form-group">
                 <input
                   type="text"
