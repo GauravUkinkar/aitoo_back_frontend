@@ -15,26 +15,21 @@ function App() {
   useEffect(() => {
     localStorage.setItem("auth", islogin ? "true" : "false");
   }, [islogin]);
-  return(
+
+  return (
     <>
-  <BrowserRouter>
-  {
-    islogin &&
-  <Header setIslogin={setIslogin} /> 
+      <BrowserRouter>
+        {islogin && <Header setIslogin={setIslogin} />}
 
-  }
-
-<Routes>
-<Route path="/login" element={<Login setIslogin={setIslogin} />} />
-<Route path="/" element={<Home />} />
-<Route path="/viewall" element={<MainTable /> } />
-
-</Routes>
-  </BrowserRouter>
-  <ToastContainer position="top-right" autoClose={3000} />
+        <Routes>
+          <Route path="/login" element={<Login setIslogin={setIslogin} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/viewall" element={<MainTable />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
-  )
- 
+  );
 }
 
 export default App;
